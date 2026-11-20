@@ -1,0 +1,67 @@
+<UserControl x:Class="CncHmiDemo.Views.PathView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent">
+    <Grid Margin="18,16,18,12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.9*" />
+            <ColumnDefinition Width="14" />
+            <ColumnDefinition Width="1.1*" />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" Style="{StaticResource Card}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid>
+                    <TextBlock Text="切割路径预览" Style="{StaticResource SectionTitle}" />
+                    <Border Background="{StaticResource AccentSoftBrush}" CornerRadius="4" Padding="8,3"
+                            HorizontalAlignment="Right">
+                        <TextBlock Text="GDI+ 渲染" Foreground="{StaticResource AccentBrush}" FontSize="10.5"
+                                   FontWeight="SemiBold" />
+                    </Border>
+                </Grid>
+                <Border Grid.Row="1" Background="#0D1524" CornerRadius="8" Margin="0,12,0,0"
+                        BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+                    <Image Source="{Binding PathImage}" Stretch="Uniform" Margin="4"
+                           RenderOptions.BitmapScalingMode="HighQuality" />
+                </Border>
+            </Grid>
+        </Border>
+
+        <StackPanel Grid.Column="2">
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Text="路径信息" Style="{StaticResource SectionTitle}" />
+                    <Grid Margin="0,14,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="86" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="12" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="路径点数" Style="{StaticResource Muted}" />
+                        <TextBlock Grid.Column="1" Text="{Binding PathPointCount}" Foreground="{StaticResource TextBrush}"
+                                   FontSize="12" />
+                        <TextBlock Grid.Row="2" Text="实时状态" Style="{StaticResource Muted}" />
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding PathInfo}" Foreground="{StaticResource MutedBrush}"
+                                   FontSize="11" TextWrapping="Wrap" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource Card}" Margin="0,12,0,0">
+                <StackPanel>
+                    <TextBlock Text="说明" Style="{StaticResource SectionTitle}" />
+                    <TextBlock Text="切割外轮廓与两个圆孔由 GDI+ 绘制：绿色为已切割段，蓝色为待切割段，虚线为空移路径；黄色十字为刀具当前位置，随下位机状态实时刷新。" Style="{StaticResource Muted}"
+                               Margin="0,10,0,0" TextWrapping="Wrap" LineHeight="20" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,140 @@
+<UserControl x:Class="CncHmiDemo.Views.ParameterView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent">
+    <Grid Margin="18,16,18,12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="14" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" Style="{StaticResource Card}">
+            <StackPanel>
+                <TextBlock Text="加工参数配置" Style="{StaticResource SectionTitle}" />
+                <TextBlock Text="参数通过 Modbus FC06 写入下位机保持寄存器（地址 3 / 4 / 8 / 9），支持读取当前值与下发。" Style="{StaticResource Muted}"
+                           Margin="0,6,0,0" TextWrapping="Wrap" />
+
+                <Grid Margin="0,22,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="170" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="12" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="12" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="12" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="切割速度（mm/min）" Foreground="{StaticResource MutedBrush}"
+                               VerticalAlignment="Center" />
+                    <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource DarkTextBox}" Width="170"
+                             HorizontalAlignment="Left" Text="{Binding ParamCutSpeed, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Grid.Row="2" Text="激光功率（%）" Foreground="{StaticResource MutedBrush}"
+                               VerticalAlignment="Center" />
+                    <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource DarkTextBox}" Width="170"
+                             HorizontalAlignment="Left" Text="{Binding ParamPower, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Grid.Row="4" Text="脉冲频率（kHz）" Foreground="{StaticResource MutedBrush}"
+                               VerticalAlignment="Center" />
+                    <TextBox Grid.Row="4" Grid.Column="1" Style="{StaticResource DarkTextBox}" Width="170"
+                             HorizontalAlignment="Left" Text="{Binding ParamPulse, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Grid.Row="6" Text="加速度（mm/s²）" Foreground="{StaticResource MutedBrush}"
+                               VerticalAlignment="Center" />
+                    <TextBox Grid.Row="6" Grid.Column="1" Style="{StaticResource DarkTextBox}" Width="170"
+                             HorizontalAlignment="Left" Text="{Binding ParamAccel, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+
+                <StackPanel Orientation="Horizontal" Margin="0,24,0,0">
+                    <Button Content="读取设备参数" Command="{Binding ReadParamsCommand}"
+                            Style="{StaticResource GhostButton}" />
+                    <Button Content="下发参数" Command="{Binding WriteParamsCommand}"
+                            Style="{StaticResource PrimaryButton}" Margin="10,0,0,0" />
+                </StackPanel>
+
+                <TextBlock Text="{Binding ParamMessage}" Foreground="{StaticResource AccentBrush}" FontSize="11.5"
+                           Margin="0,14,0,0" TextWrapping="Wrap" />
+
+                <Border Background="{StaticResource PanelAltBrush}" CornerRadius="8" Padding="12,10" Margin="0,20,0,0">
+                    <TextBlock Text="写入流程：读取当前值 → 修改参数 → FC06 下发 → 下位机寄存器更新" Style="{StaticResource Muted}" />
+                </Border>
+            </StackPanel>
+        </Border>
+
+        <StackPanel Grid.Column="2">
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Text="通信信息" Style="{StaticResource SectionTitle}" />
+                    <Grid Margin="0,14,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="通信方式" Style="{StaticResource Muted}" />
+                        <TextBlock Grid.Column="1" Text="{Binding CurrentEndpoint}" Foreground="{StaticResource TextBrush}"
+                                   FontSize="11.5" TextTrimming="CharacterEllipsis" />
+                        <TextBlock Grid.Row="2" Text="轮询周期" Style="{StaticResource Muted}" />
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="150 ms（后台线程）" Foreground="{StaticResource TextBrush}"
+                                   FontSize="11.5" />
+                        <TextBlock Grid.Row="4" Text="协议" Style="{StaticResource Muted}" />
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="Modbus TCP / Modbus RTU" Foreground="{StaticResource TextBrush}"
+                                   FontSize="11.5" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource Card}" Margin="0,12,0,0">
+                <StackPanel>
+                    <TextBlock Text="提示" Style="{StaticResource SectionTitle}" />
+                    <TextBlock Text="1. TCP 模式会先启动内置下位机模拟器，再连接 Modbus TCP 从站。&#10;2. 串口模式需要真实 PLC 或 com0com 虚拟串口对。&#10;3. 参数写入后会记录到本地 parameters.csv。" Style="{StaticResource Muted}"
+                               Margin="0,10,0,0" TextWrapping="Wrap" LineHeight="20" />
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource Card}" Margin="0,12,0,0">
+                <StackPanel>
+                    <TextBlock Text="寄存器地址" Style="{StaticResource SectionTitle}" />
+                    <Grid Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="52" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="0~9" Style="{StaticResource Muted}" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="设备状态轮询（FC03）" Foreground="{StaticResource TextBrush}" FontSize="11" />
+                        <TextBlock Grid.Row="1" Text="3" Style="{StaticResource Muted}" />
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="切割速度（mm/min）" Foreground="{StaticResource TextBrush}" FontSize="11" />
+                        <TextBlock Grid.Row="2" Text="4" Style="{StaticResource Muted}" />
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="激光功率（%）" Foreground="{StaticResource TextBrush}" FontSize="11" />
+                        <TextBlock Grid.Row="3" Text="8" Style="{StaticResource Muted}" />
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="脉冲频率（kHz）" Foreground="{StaticResource TextBrush}" FontSize="11" />
+                        <TextBlock Grid.Row="4" Text="9" Style="{StaticResource Muted}" />
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="加速度（mm/s²）" Foreground="{StaticResource TextBrush}" FontSize="11" />
+                        <TextBlock Grid.Row="5" Text="20" Style="{StaticResource Muted}" />
+                        <TextBlock Grid.Row="5" Grid.Column="1" Text="控制字（1 启动 / 2 暂停 / 3 停止 / 4 复位）" Foreground="{StaticResource TextBrush}" FontSize="11" TextWrapping="Wrap" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </Grid>
+</UserControl>
