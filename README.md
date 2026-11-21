@@ -4,6 +4,10 @@
 包含 **Modbus TCP/RTU 通信、设备状态监控、参数下发、任务调度、报警记录、GDI+ 切割路径预览**。
 内置下位机模拟器，不需要真实 PLC 也能完整运行。
 
+> **本仓库包含两个设备软件 Demo：**
+> - `CncHmiDemo/`：C# / WPF 数控切割设备上位机（Modbus TCP/RTU、状态监控、GDI+ 路径）
+> - [`cpp-device-comm-demo/`](cpp-device-comm-demo/README.md)：C++17 设备通信与状态机（Modbus TCP、Socket、多线程）
+
 ![状态监控](screenshots/dashboard.png)
 
 ## 功能

@@ -1,0 +1,20 @@
+# 构建目录
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile.bak
+
+# 可执行文件 / 中间产物
+cpp-device-demo
+cpp-device-demo.exe
+*.o
+*.obj
+*.pdb
+*.ilk
+*.exe
+
+# IDE
+.vs/
+.vscode/
+*.user
